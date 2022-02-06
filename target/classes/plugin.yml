@@ -1,0 +1,11 @@
+main: de.timesnake.extension.event.main.ExEvent
+version: 1.0
+name: extension-event
+author: Mn
+depend: [ basic-bukkit ]
+api-version: 1.13
+
+commands:
+  easter:
+  birthday:
+  christmas:
