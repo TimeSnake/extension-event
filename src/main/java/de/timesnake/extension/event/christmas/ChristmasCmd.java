@@ -8,8 +8,8 @@ import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.birthday.BirthdayEvent;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
-import de.timesnake.library.basic.util.cmd.Arguments;
-import de.timesnake.library.basic.util.cmd.ExCommand;
+import de.timesnake.library.extension.util.cmd.Arguments;
+import de.timesnake.library.extension.util.cmd.ExCommand;
 
 import java.util.ArrayList;
 import java.util.List;
