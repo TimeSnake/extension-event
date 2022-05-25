@@ -47,22 +47,21 @@ public class ChristmasEvent implements Listener {
 
     }
 
-    private static void addPresent(Present present) {
-        presentsByName.put(present.getName(), present);
-    }
-
+    private final ExItemStack crown = new Present("crown",
+            "b26e38d8c1da8d451d7194f3a7fad90a141dfe6165b6667f7a8cba0919139").getItem();
+    private final HashMap<UUID, Integer> foundPresentsByUuid = new HashMap<>();
     private boolean enabled;
 
-    private final ExItemStack crown = new Present("crown", "b26e38d8c1da8d451d7194f3a7fad90a141dfe6165b6667f7a8cba0919139").getItem();
-
-
-    private final HashMap<UUID, Integer> foundPresentsByUuid = new HashMap<>();
 
     public ChristmasEvent() {
         for (Present present : presentsByName.values()) {
             present.createItemStack();
         }
         Server.registerListener(this, ExEvent.getInstance());
+    }
+
+    private static void addPresent(Present present) {
+        presentsByName.put(present.getName(), present);
     }
 
     @EventHandler
@@ -98,7 +97,8 @@ public class ChristmasEvent implements Listener {
             user.sendActionBarText("§6 Presents found: §c" + presents);
 
             if (presents % 5 == 0) {
-                Server.broadcastMessage(Plugin.CHRISTMAS, user.getChatName() + "§6 found " + ChatColor.VALUE + presents + "§6 presents");
+                Server.broadcastMessage(Plugin.CHRISTMAS,
+                        user.getChatName() + "§6 found " + ChatColor.VALUE + presents + "§6 presents");
             }
         }
     }
