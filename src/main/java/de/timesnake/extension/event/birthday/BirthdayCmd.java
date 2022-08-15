@@ -1,13 +1,14 @@
 package de.timesnake.extension.event.birthday;
 
 import de.timesnake.basic.bukkit.util.chat.Argument;
-import de.timesnake.basic.bukkit.util.chat.ChatColor;
 import de.timesnake.basic.bukkit.util.chat.CommandListener;
 import de.timesnake.basic.bukkit.util.chat.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.main.ExEvent;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,10 @@ public class BirthdayCmd implements CommandListener {
         User user = sender.getUser();
 
         switch (args.getString(0).toLowerCase()) {
-            case "present":
+            case "present" -> {
                 if (!args.isLengthEquals(2, true)) {
                     return;
                 }
-
                 Present egg = null;
                 String eggArg = args.getString(1);
                 for (Map.Entry<String, Present> entry : BirthdayEvent.presentsByName.entrySet()) {
@@ -46,37 +46,32 @@ public class BirthdayCmd implements CommandListener {
                         break;
                     }
                 }
-
                 if (egg == null) {
                     sender.sendMessageNotExist(eggArg, 0, "egg");
                     return;
                 }
-
                 user.addItem(egg.getItem());
-                sender.sendPluginMessage(ChatColor.PERSONAL + "Present" + eggArg.toLowerCase());
-
-                break;
-            case "clear":
+                sender.sendPluginMessage(Component.text("Present" + eggArg.toLowerCase(), ExTextColor.PERSONAL));
+            }
+            case "clear" -> {
                 if (!args.isLengthEquals(2, true)) {
                     return;
                 }
-
                 Argument argRadius = args.get(1);
                 if (!argRadius.isInt(true)) {
                     return;
                 }
-
                 int radius = argRadius.toInt();
-
                 ExEvent.getInstance().getBirthdayEvent().clearEggs(user.getLocation(), radius);
-                break;
-            case "enable":
+            }
+            case "enable" -> {
                 ExEvent.getInstance().getBirthdayEvent().setEnabled(true);
-                sender.sendPluginMessage(ChatColor.PERSONAL + "Enabled birthday event");
-                break;
-            case "disable":
+                sender.sendPluginMessage(Component.text("Enabled birthday event", ExTextColor.PERSONAL));
+            }
+            case "disable" -> {
                 ExEvent.getInstance().getBirthdayEvent().setEnabled(false);
-                sender.sendPluginMessage(ChatColor.PERSONAL + "Disabled birthday event");
+                sender.sendPluginMessage(Component.text("Disabled birthday event", ExTextColor.PERSONAL));
+            }
         }
     }
 
