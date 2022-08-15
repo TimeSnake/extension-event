@@ -8,7 +8,8 @@ import de.timesnake.basic.bukkit.util.user.event.UserQuitEvent;
 import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
-import de.timesnake.library.basic.util.chat.ChatColor;
+import de.timesnake.library.basic.util.chat.ExTextColor;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,6 +26,10 @@ import java.util.UUID;
 public class ChristmasEvent implements Listener {
 
     public static final Map<String, Present> presentsByName = new HashMap<>();
+
+    private static void addPresent(Present present) {
+        presentsByName.put(present.getName(), present);
+    }
 
     static {
         addPresent(new Present("red1", "f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca"));
@@ -52,16 +57,11 @@ public class ChristmasEvent implements Listener {
     private final HashMap<UUID, Integer> foundPresentsByUuid = new HashMap<>();
     private boolean enabled;
 
-
     public ChristmasEvent() {
         for (Present present : presentsByName.values()) {
             present.createItemStack();
         }
         Server.registerListener(this, ExEvent.getInstance());
-    }
-
-    private static void addPresent(Present present) {
-        presentsByName.put(present.getName(), present);
     }
 
     @EventHandler
@@ -94,11 +94,15 @@ public class ChristmasEvent implements Listener {
 
             this.foundPresentsByUuid.put(user.getUniqueId(), presents);
 
-            user.sendActionBarText("§6 Presents found: §c" + presents);
+            user.sendActionBarText(Component.text("Presents found: ", ExTextColor.GOLD)
+                    .append(Component.text(presents, ExTextColor.VALUE)));
 
             if (presents % 5 == 0) {
                 Server.broadcastMessage(Plugin.CHRISTMAS,
-                        user.getChatName() + "§6 found " + ChatColor.VALUE + presents + "§6 presents");
+                        user.getChatNameComponent()
+                                .append(Component.text(" found ", ExTextColor.GOLD))
+                                .append(Component.text(presents, ExTextColor.VALUE))
+                                .append(Component.text("presents", ExTextColor.GOLD)));
             }
         }
     }

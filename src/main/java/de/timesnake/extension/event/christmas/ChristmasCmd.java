@@ -1,15 +1,16 @@
 package de.timesnake.extension.event.christmas;
 
 import de.timesnake.basic.bukkit.util.chat.Argument;
-import de.timesnake.basic.bukkit.util.chat.ChatColor;
 import de.timesnake.basic.bukkit.util.chat.CommandListener;
 import de.timesnake.basic.bukkit.util.chat.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.birthday.BirthdayEvent;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
+import de.timesnake.library.basic.util.chat.ExTextColor;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
+import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ChristmasCmd implements CommandListener {
                 }
 
                 user.addItem(present.getItem());
-                sender.sendPluginMessage(ChatColor.PERSONAL + "Present " + presentArg.toLowerCase());
+                sender.sendPluginMessage(Component.text("Present " + presentArg.toLowerCase(), ExTextColor.PERSONAL));
 
                 break;
             case "clear":
@@ -74,11 +75,11 @@ public class ChristmasCmd implements CommandListener {
                 break;
             case "enable":
                 ExEvent.getInstance().getChristmasEvent().setEnabled(true);
-                sender.sendPluginMessage(ChatColor.PERSONAL + "Enabled christmas event");
+                sender.sendPluginMessage(Component.text("Enabled christmas event", ExTextColor.PERSONAL));
                 break;
             case "disable":
                 ExEvent.getInstance().getChristmasEvent().setEnabled(false);
-                sender.sendPluginMessage(ChatColor.PERSONAL + "Disabled christmas event");
+                sender.sendPluginMessage(Component.text("Disabled christmas event", ExTextColor.PERSONAL));
         }
     }
 
