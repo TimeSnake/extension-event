@@ -6,6 +6,8 @@ import de.timesnake.basic.bukkit.util.chat.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
 import net.kyori.adventure.text.Component;
@@ -16,10 +18,13 @@ import java.util.Map;
 
 public class EasterCmd implements CommandListener {
 
+    private Code.Permission perm;
+    private Code.Help eggNotExists;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
 
-        if (!sender.hasPermission("exevent.easter")) {
+        if (!sender.hasPermission(this.perm)) {
             return;
         }
 
@@ -47,7 +52,7 @@ public class EasterCmd implements CommandListener {
                     }
                 }
                 if (egg == null) {
-                    sender.sendMessageNotExist(eggArg, 0, "egg");
+                    sender.sendMessageNotExist(eggArg, this.eggNotExists, "Egg");
                     return;
                 }
                 user.addItem(egg.getItem());
@@ -83,5 +88,11 @@ public class EasterCmd implements CommandListener {
             return new ArrayList<>(EasterEvent.easterEggsByName.keySet());
         }
         return null;
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+        this.perm = plugin.createPermssionCode("egg", "exevent.easter");
+        this.eggNotExists = plugin.createHelpCode("egg", "Egg not exists");
     }
 }

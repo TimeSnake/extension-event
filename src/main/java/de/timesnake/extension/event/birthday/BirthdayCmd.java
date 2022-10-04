@@ -6,6 +6,8 @@ import de.timesnake.basic.bukkit.util.chat.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
 import net.kyori.adventure.text.Component;
@@ -16,10 +18,13 @@ import java.util.Map;
 
 public class BirthdayCmd implements CommandListener {
 
+    private Code.Permission perm;
+    private Code.Help presentNotExists;
+
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
 
-        if (!sender.hasPermission("exevent.birthday")) {
+        if (!sender.hasPermission(this.perm)) {
             return;
         }
 
@@ -47,7 +52,7 @@ public class BirthdayCmd implements CommandListener {
                     }
                 }
                 if (egg == null) {
-                    sender.sendMessageNotExist(eggArg, 0, "egg");
+                    sender.sendMessageNotExist(eggArg, this.presentNotExists, "Present");
                     return;
                 }
                 user.addItem(egg.getItem());
@@ -83,5 +88,11 @@ public class BirthdayCmd implements CommandListener {
             return new ArrayList<>(BirthdayEvent.presentsByName.keySet());
         }
         return null;
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+        this.perm = plugin.createPermssionCode("bdy", "exevent.birthday");
+        this.presentNotExists = plugin.createHelpCode("bdy", "Present not exists");
     }
 }

@@ -8,6 +8,8 @@ import de.timesnake.extension.event.birthday.BirthdayEvent;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.extension.util.chat.Code;
+import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
 import net.kyori.adventure.text.Component;
@@ -17,6 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ChristmasCmd implements CommandListener {
+
+    private Code.Permission perm;
+    private Code.Help presentNotExists;
 
     @Override
     public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
@@ -36,11 +41,10 @@ public class ChristmasCmd implements CommandListener {
         User user = sender.getUser();
 
         switch (args.getString(0).toLowerCase()) {
-            case "present":
+            case "present" -> {
                 if (!args.isLengthEquals(2, true)) {
                     return;
                 }
-
                 Present present = null;
                 String presentArg = args.getString(1);
                 for (Map.Entry<String, Present> entry : BirthdayEvent.presentsByName.entrySet()) {
@@ -49,37 +53,32 @@ public class ChristmasCmd implements CommandListener {
                         break;
                     }
                 }
-
                 if (present == null) {
-                    sender.sendMessageNotExist(presentArg, 0, "present");
+                    sender.sendMessageNotExist(presentArg, this.presentNotExists, "Present");
                     return;
                 }
-
                 user.addItem(present.getItem());
                 sender.sendPluginMessage(Component.text("Present " + presentArg.toLowerCase(), ExTextColor.PERSONAL));
-
-                break;
-            case "clear":
+            }
+            case "clear" -> {
                 if (!args.isLengthEquals(2, true)) {
                     return;
                 }
-
                 Argument argRadius = args.get(1);
                 if (!argRadius.isInt(true)) {
                     return;
                 }
-
                 int radius = argRadius.toInt();
-
                 ExEvent.getInstance().getChristmasEvent().clearEggs(user.getLocation(), radius);
-                break;
-            case "enable":
+            }
+            case "enable" -> {
                 ExEvent.getInstance().getChristmasEvent().setEnabled(true);
                 sender.sendPluginMessage(Component.text("Enabled christmas event", ExTextColor.PERSONAL));
-                break;
-            case "disable":
+            }
+            case "disable" -> {
                 ExEvent.getInstance().getChristmasEvent().setEnabled(false);
                 sender.sendPluginMessage(Component.text("Disabled christmas event", ExTextColor.PERSONAL));
+            }
         }
     }
 
@@ -91,5 +90,11 @@ public class ChristmasCmd implements CommandListener {
             return new ArrayList<>(BirthdayEvent.presentsByName.keySet());
         }
         return null;
+    }
+
+    @Override
+    public void loadCodes(Plugin plugin) {
+        this.perm = plugin.createPermssionCode("xms", "exevent.christmas");
+        this.presentNotExists = plugin.createHelpCode("xms", "Present not exists");
     }
 }
