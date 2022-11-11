@@ -7,4 +7,10 @@
 /.gradle/
 /build/
 gradle_build.out
+/gradle/
+gradlew
+gradlew.bat
 gradle_build.out
+/gradle/
+gradlew
+gradlew.bat
