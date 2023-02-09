@@ -14,19 +14,19 @@ import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import net.kyori.adventure.text.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.kyori.adventure.text.Component;
 
 public class EasterCmd implements CommandListener {
 
-    private Code.Permission perm;
-    private Code.Help eggNotExists;
+    private Code perm;
+    private Code eggNotExists;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
 
         if (!sender.hasPermission(this.perm)) {
             return;
@@ -60,7 +60,8 @@ public class EasterCmd implements CommandListener {
                     return;
                 }
                 user.addItem(egg.getItem());
-                sender.sendPluginMessage(Component.text("Egg " + eggArg.toLowerCase(), ExTextColor.PERSONAL));
+                sender.sendPluginMessage(
+                        Component.text("Egg " + eggArg.toLowerCase(), ExTextColor.PERSONAL));
             }
             case "clear" -> {
                 if (!args.isLengthEquals(2, true)) {
@@ -75,17 +76,20 @@ public class EasterCmd implements CommandListener {
             }
             case "enable" -> {
                 ExEvent.getInstance().getEasterEvent().setEnabled(true);
-                sender.sendPluginMessage(Component.text("Enabled easter event", ExTextColor.PERSONAL));
+                sender.sendPluginMessage(
+                        Component.text("Enabled easter event", ExTextColor.PERSONAL));
             }
             case "disable" -> {
                 ExEvent.getInstance().getEasterEvent().setEnabled(false);
-                sender.sendPluginMessage(Component.text("Disabled easter event", ExTextColor.PERSONAL));
+                sender.sendPluginMessage(
+                        Component.text("Disabled easter event", ExTextColor.PERSONAL));
             }
         }
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return List.of("egg", "clear", "enable", "disable");
         } else if (args.getLength() == 2 || args.getString(0).equalsIgnoreCase("egg")) {
@@ -96,7 +100,7 @@ public class EasterCmd implements CommandListener {
 
     @Override
     public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("egg", "exevent.easter");
-        this.eggNotExists = plugin.createHelpCode("egg", "Egg not exists");
+        this.perm = plugin.createPermssionCode("exevent.easter");
+        this.eggNotExists = plugin.createHelpCode("Egg not exists");
     }
 }
