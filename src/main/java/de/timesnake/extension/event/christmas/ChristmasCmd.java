@@ -16,19 +16,19 @@ import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
 import de.timesnake.library.extension.util.cmd.ExCommand;
-import net.kyori.adventure.text.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.kyori.adventure.text.Component;
 
 public class ChristmasCmd implements CommandListener {
 
-    private Code.Permission perm;
-    private Code.Help presentNotExists;
+    private Code perm;
+    private Code presentNotExists;
 
     @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
 
         if (!sender.hasPermission("exevent.christmas")) {
             return;
@@ -62,7 +62,8 @@ public class ChristmasCmd implements CommandListener {
                     return;
                 }
                 user.addItem(present.getItem());
-                sender.sendPluginMessage(Component.text("Present " + presentArg.toLowerCase(), ExTextColor.PERSONAL));
+                sender.sendPluginMessage(Component.text("Present " + presentArg.toLowerCase(),
+                        ExTextColor.PERSONAL));
             }
             case "clear" -> {
                 if (!args.isLengthEquals(2, true)) {
@@ -77,17 +78,20 @@ public class ChristmasCmd implements CommandListener {
             }
             case "enable" -> {
                 ExEvent.getInstance().getChristmasEvent().setEnabled(true);
-                sender.sendPluginMessage(Component.text("Enabled christmas event", ExTextColor.PERSONAL));
+                sender.sendPluginMessage(
+                        Component.text("Enabled christmas event", ExTextColor.PERSONAL));
             }
             case "disable" -> {
                 ExEvent.getInstance().getChristmasEvent().setEnabled(false);
-                sender.sendPluginMessage(Component.text("Disabled christmas event", ExTextColor.PERSONAL));
+                sender.sendPluginMessage(
+                        Component.text("Disabled christmas event", ExTextColor.PERSONAL));
             }
         }
     }
 
     @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd, Arguments<Argument> args) {
+    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+            Arguments<Argument> args) {
         if (args.getLength() == 1) {
             return List.of("present", "clear", "enable", "disable");
         } else if (args.getLength() == 2 || args.getString(0).equalsIgnoreCase("present")) {
@@ -98,7 +102,7 @@ public class ChristmasCmd implements CommandListener {
 
     @Override
     public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("xms", "exevent.christmas");
-        this.presentNotExists = plugin.createHelpCode("xms", "Present not exists");
+        this.perm = plugin.createPermssionCode("exevent.christmas");
+        this.presentNotExists = plugin.createHelpCode("Present not exists");
     }
 }
