@@ -11,7 +11,7 @@ import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.birthday.BirthdayEvent;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
-import de.timesnake.library.basic.util.chat.ExTextColor;
+import de.timesnake.library.chat.ExTextColor;
 import de.timesnake.library.extension.util.chat.Code;
 import de.timesnake.library.extension.util.chat.Plugin;
 import de.timesnake.library.extension.util.cmd.Arguments;
