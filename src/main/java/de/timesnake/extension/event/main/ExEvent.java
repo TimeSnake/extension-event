@@ -6,6 +6,8 @@ package de.timesnake.extension.event.main;
 
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.extension.event.Plugin;
+import de.timesnake.extension.event.april.AprilCmd;
+import de.timesnake.extension.event.april.AprilEvent;
 import de.timesnake.extension.event.birthday.BirthdayCmd;
 import de.timesnake.extension.event.birthday.BirthdayEvent;
 import de.timesnake.extension.event.christmas.ChristmasCmd;
@@ -25,6 +27,7 @@ public class ExEvent extends JavaPlugin {
     private EasterEvent easterEvent;
     private BirthdayEvent birthdayEvent;
     private ChristmasEvent christmasEvent;
+    private AprilEvent aprilEvent;
 
     @Override
     public void onEnable() {
@@ -36,7 +39,11 @@ public class ExEvent extends JavaPlugin {
         Server.getCommandManager().addCommand(this, "birthday", new BirthdayCmd(), Plugin.BIRTHDAY);
 
         this.christmasEvent = new ChristmasEvent();
-        Server.getCommandManager().addCommand(this, "christmas", new ChristmasCmd(), Plugin.CHRISTMAS);
+        Server.getCommandManager()
+                .addCommand(this, "christmas", new ChristmasCmd(), Plugin.CHRISTMAS);
+
+        this.aprilEvent = new AprilEvent();
+        Server.getCommandManager().addCommand(this, "april", new AprilCmd(), Plugin.APRIL);
     }
 
     public EasterEvent getEasterEvent() {
@@ -49,5 +56,13 @@ public class ExEvent extends JavaPlugin {
 
     public ChristmasEvent getChristmasEvent() {
         return christmasEvent;
+    }
+
+    public AprilEvent getAprilEvent() {
+        return aprilEvent;
+    }
+
+    public static ExEvent getPlugin() {
+        return plugin;
     }
 }
