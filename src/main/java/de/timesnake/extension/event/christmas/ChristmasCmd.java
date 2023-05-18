@@ -23,86 +23,86 @@ import net.kyori.adventure.text.Component;
 
 public class ChristmasCmd implements CommandListener {
 
-    private Code perm;
-    private Code presentNotExists;
+  private Code perm;
+  private Code presentNotExists;
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
 
-        if (!sender.hasPermission("exevent.christmas")) {
-            return;
-        }
-
-        if (!args.isLengthHigherEquals(1, true)) {
-            return;
-        }
-
-        if (!sender.isPlayer(true)) {
-            return;
-        }
-
-        User user = sender.getUser();
-
-        switch (args.getString(0).toLowerCase()) {
-            case "present" -> {
-                if (!args.isLengthEquals(2, true)) {
-                    return;
-                }
-                Present present = null;
-                String presentArg = args.getString(1);
-                for (Map.Entry<String, Present> entry : BirthdayEvent.presentsByName.entrySet()) {
-                    if (presentArg.equalsIgnoreCase(entry.getKey())) {
-                        present = entry.getValue();
-                        break;
-                    }
-                }
-                if (present == null) {
-                    sender.sendMessageNotExist(presentArg, this.presentNotExists, "Present");
-                    return;
-                }
-                user.addItem(present.getItem());
-                sender.sendPluginMessage(Component.text("Present " + presentArg.toLowerCase(),
-                        ExTextColor.PERSONAL));
-            }
-            case "clear" -> {
-                if (!args.isLengthEquals(2, true)) {
-                    return;
-                }
-                Argument argRadius = args.get(1);
-                if (!argRadius.isInt(true)) {
-                    return;
-                }
-                int radius = argRadius.toInt();
-                ExEvent.getInstance().getChristmasEvent().clearEggs(user.getLocation(), radius);
-            }
-            case "enable" -> {
-                ExEvent.getInstance().getChristmasEvent().setEnabled(true);
-                sender.sendPluginMessage(
-                        Component.text("Enabled christmas event", ExTextColor.PERSONAL));
-            }
-            case "disable" -> {
-                ExEvent.getInstance().getChristmasEvent().setEnabled(false);
-                sender.sendPluginMessage(
-                        Component.text("Disabled christmas event", ExTextColor.PERSONAL));
-            }
-        }
+    if (!sender.hasPermission("exevent.christmas")) {
+      return;
     }
 
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.getLength() == 1) {
-            return List.of("present", "clear", "enable", "disable");
-        } else if (args.getLength() == 2 || args.getString(0).equalsIgnoreCase("present")) {
-            return new ArrayList<>(BirthdayEvent.presentsByName.keySet());
-        }
-        return null;
+    if (!args.isLengthHigherEquals(1, true)) {
+      return;
     }
 
-    @Override
-    public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("exevent.christmas");
-        this.presentNotExists = plugin.createHelpCode("Present not exists");
+    if (!sender.isPlayer(true)) {
+      return;
     }
+
+    User user = sender.getUser();
+
+    switch (args.getString(0).toLowerCase()) {
+      case "present" -> {
+        if (!args.isLengthEquals(2, true)) {
+          return;
+        }
+        Present present = null;
+        String presentArg = args.getString(1);
+        for (Map.Entry<String, Present> entry : BirthdayEvent.presentsByName.entrySet()) {
+          if (presentArg.equalsIgnoreCase(entry.getKey())) {
+            present = entry.getValue();
+            break;
+          }
+        }
+        if (present == null) {
+          sender.sendMessageNotExist(presentArg, this.presentNotExists, "Present");
+          return;
+        }
+        user.addItem(present.getItem());
+        sender.sendPluginMessage(Component.text("Present " + presentArg.toLowerCase(),
+            ExTextColor.PERSONAL));
+      }
+      case "clear" -> {
+        if (!args.isLengthEquals(2, true)) {
+          return;
+        }
+        Argument argRadius = args.get(1);
+        if (!argRadius.isInt(true)) {
+          return;
+        }
+        int radius = argRadius.toInt();
+        ExEvent.getInstance().getChristmasEvent().clearEggs(user.getLocation(), radius);
+      }
+      case "enable" -> {
+        ExEvent.getInstance().getChristmasEvent().setEnabled(true);
+        sender.sendPluginMessage(
+            Component.text("Enabled christmas event", ExTextColor.PERSONAL));
+      }
+      case "disable" -> {
+        ExEvent.getInstance().getChristmasEvent().setEnabled(false);
+        sender.sendPluginMessage(
+            Component.text("Disabled christmas event", ExTextColor.PERSONAL));
+      }
+    }
+  }
+
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.getLength() == 1) {
+      return List.of("present", "clear", "enable", "disable");
+    } else if (args.getLength() == 2 || args.getString(0).equalsIgnoreCase("present")) {
+      return new ArrayList<>(BirthdayEvent.presentsByName.keySet());
+    }
+    return null;
+  }
+
+  @Override
+  public void loadCodes(Plugin plugin) {
+    this.perm = plugin.createPermssionCode("exevent.christmas");
+    this.presentNotExists = plugin.createHelpCode("Present not exists");
+  }
 }

@@ -17,47 +17,47 @@ import java.util.List;
 
 public class AprilCmd implements CommandListener {
 
-    private Code perm;
+  private Code perm;
 
-    @Override
-    public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
+  @Override
+  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
 
-        sender.hasPermissionElseExit(this.perm);
+    sender.hasPermissionElseExit(this.perm);
 
-        if (!args.isLengthHigherEquals(1, true)) {
-            return;
-        }
-
-        if (!sender.isPlayer(true)) {
-            return;
-        }
-
-        User user = sender.getUser();
-
-        switch (args.getString(0).toLowerCase()) {
-            case "enable" -> {
-                ExEvent.getInstance().getAprilEvent().setEnabled(true);
-                sender.sendPluginTDMessage("§sEnabled april event");
-            }
-            case "disable" -> {
-                ExEvent.getInstance().getAprilEvent().setEnabled(false);
-                sender.sendPluginTDMessage("§sDisabled april event");
-            }
-        }
+    if (!args.isLengthHigherEquals(1, true)) {
+      return;
     }
 
-    @Override
-    public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-            Arguments<Argument> args) {
-        if (args.getLength() == 1) {
-            return List.of("enable", "disable");
-        }
-        return null;
+    if (!sender.isPlayer(true)) {
+      return;
     }
 
-    @Override
-    public void loadCodes(Plugin plugin) {
-        this.perm = plugin.createPermssionCode("exevent.april");
+    User user = sender.getUser();
+
+    switch (args.getString(0).toLowerCase()) {
+      case "enable" -> {
+        ExEvent.getInstance().getAprilEvent().setEnabled(true);
+        sender.sendPluginTDMessage("§sEnabled april event");
+      }
+      case "disable" -> {
+        ExEvent.getInstance().getAprilEvent().setEnabled(false);
+        sender.sendPluginTDMessage("§sDisabled april event");
+      }
     }
+  }
+
+  @Override
+  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
+      Arguments<Argument> args) {
+    if (args.getLength() == 1) {
+      return List.of("enable", "disable");
+    }
+    return null;
+  }
+
+  @Override
+  public void loadCodes(Plugin plugin) {
+    this.perm = plugin.createPermssionCode("exevent.april");
+  }
 }
