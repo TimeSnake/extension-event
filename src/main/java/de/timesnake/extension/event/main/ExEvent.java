@@ -18,51 +18,51 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ExEvent extends JavaPlugin {
 
-    private static ExEvent plugin;
+  private static ExEvent plugin;
 
-    public static ExEvent getInstance() {
-        return plugin;
-    }
+  public static ExEvent getInstance() {
+    return plugin;
+  }
 
-    private EasterEvent easterEvent;
-    private BirthdayEvent birthdayEvent;
-    private ChristmasEvent christmasEvent;
-    private AprilEvent aprilEvent;
+  private EasterEvent easterEvent;
+  private BirthdayEvent birthdayEvent;
+  private ChristmasEvent christmasEvent;
+  private AprilEvent aprilEvent;
 
-    @Override
-    public void onEnable() {
-        plugin = this;
-        this.easterEvent = new EasterEvent();
-        Server.getCommandManager().addCommand(this, "easter", new EasterCmd(), Plugin.EASTER);
+  @Override
+  public void onEnable() {
+    plugin = this;
+    this.easterEvent = new EasterEvent();
+    Server.getCommandManager().addCommand(this, "easter", new EasterCmd(), Plugin.EASTER);
 
-        this.birthdayEvent = new BirthdayEvent();
-        Server.getCommandManager().addCommand(this, "birthday", new BirthdayCmd(), Plugin.BIRTHDAY);
+    this.birthdayEvent = new BirthdayEvent();
+    Server.getCommandManager().addCommand(this, "birthday", new BirthdayCmd(), Plugin.BIRTHDAY);
 
-        this.christmasEvent = new ChristmasEvent();
-        Server.getCommandManager()
-                .addCommand(this, "christmas", new ChristmasCmd(), Plugin.CHRISTMAS);
+    this.christmasEvent = new ChristmasEvent();
+    Server.getCommandManager()
+        .addCommand(this, "christmas", new ChristmasCmd(), Plugin.CHRISTMAS);
 
-        this.aprilEvent = new AprilEvent();
-        Server.getCommandManager().addCommand(this, "april", new AprilCmd(), Plugin.APRIL);
-    }
+    this.aprilEvent = new AprilEvent();
+    Server.getCommandManager().addCommand(this, "april", new AprilCmd(), Plugin.APRIL);
+  }
 
-    public EasterEvent getEasterEvent() {
-        return easterEvent;
-    }
+  public EasterEvent getEasterEvent() {
+    return easterEvent;
+  }
 
-    public BirthdayEvent getBirthdayEvent() {
-        return birthdayEvent;
-    }
+  public BirthdayEvent getBirthdayEvent() {
+    return birthdayEvent;
+  }
 
-    public ChristmasEvent getChristmasEvent() {
-        return christmasEvent;
-    }
+  public ChristmasEvent getChristmasEvent() {
+    return christmasEvent;
+  }
 
-    public AprilEvent getAprilEvent() {
-        return aprilEvent;
-    }
+  public AprilEvent getAprilEvent() {
+    return aprilEvent;
+  }
 
-    public static ExEvent getPlugin() {
-        return plugin;
-    }
+  public static ExEvent getPlugin() {
+    return plugin;
+  }
 }

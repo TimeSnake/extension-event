@@ -19,50 +19,50 @@ import org.bukkit.event.player.PlayerKickEvent.Cause;
 
 public class AprilEvent implements Listener {
 
-    private static final List<String> REASONS = List.of("Hacking", "Auto-Clicker",
-            "Bug Exploiting", "Spam", "Offensive Language", "Unknown");
+  private static final List<String> REASONS = List.of("Hacking", "Auto-Clicker",
+      "Bug Exploiting", "Spam", "Offensive Language", "Unknown");
 
-    private final Random random = new Random();
-    private final HashMap<UUID, State> stateByUuid = new HashMap<>();
-    private boolean enabled;
+  private final Random random = new Random();
+  private final HashMap<UUID, State> stateByUuid = new HashMap<>();
+  private boolean enabled;
 
-    public AprilEvent() {
-        Server.registerListener(this, ExEvent.getPlugin());
+  public AprilEvent() {
+    Server.registerListener(this, ExEvent.getPlugin());
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  @EventHandler
+  public void onUserJoin(AsyncUserJoinEvent e) {
+    if (!this.isEnabled()) {
+      return;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    User user = e.getUser();
+
+    State state = this.stateByUuid.get(user.getUniqueId());
+
+    if (state == null) {
+      Server.runTaskSynchrony(
+          () -> user.kick(Component.text("\n§c§lYour were banned!\n§cReason: "
+              + REASONS.get(this.random.nextInt(REASONS.size()))), Cause.BANNED),
+          ExEvent.getPlugin());
+      this.stateByUuid.put(user.getUniqueId(), State.BANNED);
+    } else if (state == State.BANNED) {
+      Server.runTaskSynchrony(
+          () -> user.kick(Component.text("\n§6§lApril April!"), Cause.KICK_COMMAND),
+          ExEvent.getPlugin());
+      this.stateByUuid.put(user.getUniqueId(), State.FOOLED);
     }
+  }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    @EventHandler
-    public void onUserJoin(AsyncUserJoinEvent e) {
-        if (!this.isEnabled()) {
-            return;
-        }
-
-        User user = e.getUser();
-
-        State state = this.stateByUuid.get(user.getUniqueId());
-
-        if (state == null) {
-            Server.runTaskSynchrony(
-                    () -> user.kick(Component.text("\n§c§lYour were banned!\n§cReason: "
-                            + REASONS.get(this.random.nextInt(REASONS.size()))), Cause.BANNED),
-                    ExEvent.getPlugin());
-            this.stateByUuid.put(user.getUniqueId(), State.BANNED);
-        } else if (state == State.BANNED) {
-            Server.runTaskSynchrony(
-                    () -> user.kick(Component.text("\n§6§lApril April!"), Cause.KICK_COMMAND),
-                    ExEvent.getPlugin());
-            this.stateByUuid.put(user.getUniqueId(), State.FOOLED);
-        }
-    }
-
-    private enum State {
-        BANNED, FOOLED
-    }
+  private enum State {
+    BANNED, FOOLED
+  }
 }
