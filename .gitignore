@@ -4,9 +4,9 @@
 .idea/dataSources
 /.gradle/
 /build/
-/gradle/
+
 gradlew
 gradlew.bat
-/gradle/
+
 gradlew
 gradlew.bat
