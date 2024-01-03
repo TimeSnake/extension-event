@@ -4,30 +4,28 @@
 
 package de.timesnake.extension.event.birthday;
 
-import de.timesnake.basic.bukkit.util.chat.Argument;
-import de.timesnake.basic.bukkit.util.chat.CommandListener;
-import de.timesnake.basic.bukkit.util.chat.Sender;
+import de.timesnake.basic.bukkit.util.chat.cmd.Argument;
+import de.timesnake.basic.bukkit.util.chat.cmd.CommandListener;
+import de.timesnake.basic.bukkit.util.chat.cmd.Completion;
+import de.timesnake.basic.bukkit.util.chat.cmd.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
+import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.commands.PluginCommand;
+import de.timesnake.library.commands.simple.Arguments;
 import de.timesnake.library.extension.util.chat.Code;
-import de.timesnake.library.extension.util.chat.Plugin;
-import de.timesnake.library.extension.util.cmd.Arguments;
-import de.timesnake.library.extension.util.cmd.ExCommand;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import net.kyori.adventure.text.Component;
+
+import java.util.Map;
 
 public class BirthdayCmd implements CommandListener {
 
-  private Code perm;
-  private Code presentNotExists;
+  private final Code perm = Plugin.BIRTHDAY.createPermssionCode("exevent.birthday");
+  private final Code presentNotExists = Plugin.BIRTHDAY.createHelpCode("Present not exists");
 
   @Override
-  public void onCommand(Sender sender, ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-
+  public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {
     if (!sender.hasPermission(this.perm)) {
       return;
     }
@@ -88,19 +86,17 @@ public class BirthdayCmd implements CommandListener {
   }
 
   @Override
-  public List<String> getTabCompletion(ExCommand<Sender, Argument> cmd,
-      Arguments<Argument> args) {
-    if (args.getLength() == 1) {
-      return List.of("present", "clear", "enable", "disable");
-    } else if (args.getLength() == 2 || args.getString(0).equalsIgnoreCase("present")) {
-      return new ArrayList<>(BirthdayEvent.presentsByName.keySet());
-    }
-    return null;
+  public Completion getTabCompletion() {
+    return new Completion(this.perm)
+        .addArgument(new Completion("clear", "enable", "disable"))
+        .addArgument(new Completion("present")
+            .addArgument(new Completion(BirthdayEvent.presentsByName.keySet())));
   }
 
   @Override
-  public void loadCodes(Plugin plugin) {
-    this.perm = plugin.createPermssionCode("exevent.birthday");
-    this.presentNotExists = plugin.createHelpCode("Present not exists");
+  public String getPermission() {
+    return this.perm.getPermission();
   }
+
+
 }
