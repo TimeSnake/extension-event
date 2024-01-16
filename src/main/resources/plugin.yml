@@ -1,5 +1,5 @@
 main: de.timesnake.extension.event.main.ExEvent
-version: 1.1
+version: 1.2.0
 name: extension-event
 author: timesnake
 depend: [ basic-bukkit ]
