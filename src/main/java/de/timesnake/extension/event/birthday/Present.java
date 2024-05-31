@@ -8,10 +8,11 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
-import java.util.UUID;
 import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.UUID;
 
 public class Present {
 
@@ -33,7 +34,7 @@ public class Present {
   }
 
   public ExItemStack createItemStack() {
-    GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+    GameProfile profile = new GameProfile(UUID.randomUUID(), "test");
     PropertyMap propertyMap = profile.getProperties();
     if (propertyMap == null) {
       throw new IllegalStateException("Profile doesn't contain a property map");
