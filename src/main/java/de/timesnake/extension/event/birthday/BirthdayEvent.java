@@ -10,9 +10,6 @@ import de.timesnake.basic.bukkit.util.user.event.UserJoinEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserQuitEvent;
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
 import de.timesnake.extension.event.main.ExEvent;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,6 +18,9 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BirthdayEvent implements Listener {
 
@@ -79,68 +79,6 @@ public class BirthdayEvent implements Listener {
     presentsByName.put(present.getName(), present);
   }
 
-  public static Object getAttributeValue(Object obj, String attributeName) {
-    Field field = null;
-    try {
-      field = obj.getClass().getDeclaredField(attributeName);
-    } catch (NoSuchFieldException e) {
-      e.printStackTrace();
-    }
-    field.setAccessible(true);
-
-    Object value = null;
-    try {
-      value = field.get(obj);
-    } catch (IllegalAccessException e) {
-      e.printStackTrace();
-    }
-    return value;
-  }
-
-  static <T> FieldAccessor<T> getField(Class<?> target, String name, Class<T> fieldType,
-      int index) {
-    for (final Field field : target.getDeclaredFields()) {
-      if ((name == null || field.getName().equals(name)) && fieldType.isAssignableFrom(
-          field.getType()) && index-- <= 0) {
-        field.setAccessible(true);
-
-        // A function for retrieving a specific field value
-        return new FieldAccessor<T>() {
-          @SuppressWarnings("unchecked")
-          @Override
-          public T get(Object target) {
-            try {
-              return (T) field.get(target);
-            } catch (IllegalAccessException e) {
-              throw new RuntimeException("Cannot access reflection.", e);
-            }
-          }
-
-          @Override
-          public void set(Object target, Object value) {
-            try {
-              field.set(target, value);
-            } catch (IllegalAccessException e) {
-              throw new RuntimeException("Cannot access reflection.", e);
-            }
-          }
-
-          @Override
-          public boolean hasField(Object target) {
-            // target instanceof DeclaringClass
-            return field.getDeclaringClass().isAssignableFrom(target.getClass());
-          }
-        };
-      }
-    }
-
-    // Search in parent classes
-    if (target.getSuperclass() != null) {
-      return getField(target.getSuperclass(), name, fieldType, index);
-    }
-    throw new IllegalArgumentException("Cannot find field with type " + fieldType);
-  }
-
   @EventHandler
   public void onPlayerInteract(PlayerInteractEvent e) {
     if (!this.enabled) {
@@ -149,7 +87,7 @@ public class BirthdayEvent implements Listener {
 
     Block block = e.getClickedBlock();
 
-    if (block == null || block.getType() == null) {
+    if (block == null) {
       return;
     }
 
@@ -211,32 +149,5 @@ public class BirthdayEvent implements Listener {
       e.getUser().getInventory().setHelmet(null);
       e.getUser().updateInventory();
     }
-  }
-
-  public interface FieldAccessor<T> {
-
-    /**
-     * Retrieve the content of a field.
-     *
-     * @param target the target object, or NULL for a static field
-     * @return the value of the field
-     */
-    T get(Object target);
-
-    /**
-     * Set the content of a field.
-     *
-     * @param target the target object, or NULL for a static field
-     * @param value  the new value of the field
-     */
-    void set(Object target, Object value);
-
-    /**
-     * Determine if the given object has this field.
-     *
-     * @param target the object to test
-     * @return TRUE if it does, FALSE otherwise
-     */
-    boolean hasField(Object target);
   }
 }

@@ -7,9 +7,6 @@ package de.timesnake.extension.event.easter;
 import de.timesnake.basic.bukkit.util.Server;
 import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.extension.event.main.ExEvent;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +15,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EasterEvent implements Listener {
 
@@ -85,7 +86,7 @@ public class EasterEvent implements Listener {
 
     Block block = e.getClickedBlock();
 
-    if (block == null || block.getType() == null) {
+    if (block == null) {
       return;
     }
 
@@ -147,7 +148,7 @@ public class EasterEvent implements Listener {
         field.setAccessible(true);
 
         // A function for retrieving a specific field value
-        return new FieldAccessor<T>() {
+        return new FieldAccessor<>() {
           @SuppressWarnings("unchecked")
           @Override
           public T get(Object target) {

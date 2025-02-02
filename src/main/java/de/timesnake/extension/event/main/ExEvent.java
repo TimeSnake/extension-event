@@ -5,7 +5,6 @@
 package de.timesnake.extension.event.main;
 
 import de.timesnake.basic.bukkit.util.Server;
-import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.april.AprilCmd;
 import de.timesnake.extension.event.april.AprilEvent;
 import de.timesnake.extension.event.birthday.BirthdayCmd;
@@ -14,6 +13,7 @@ import de.timesnake.extension.event.christmas.ChristmasCmd;
 import de.timesnake.extension.event.christmas.ChristmasEvent;
 import de.timesnake.extension.event.easter.EasterCmd;
 import de.timesnake.extension.event.easter.EasterEvent;
+import de.timesnake.library.chat.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ExEvent extends JavaPlugin {
@@ -33,17 +33,17 @@ public class ExEvent extends JavaPlugin {
   public void onEnable() {
     plugin = this;
     this.easterEvent = new EasterEvent();
-    Server.getCommandManager().addCommand(this, "easter", new EasterCmd(), Plugin.EASTER);
+    Server.getCommandManager().addCommand(this, "easter", new EasterCmd(), Plugin.SERVER);
 
     this.birthdayEvent = new BirthdayEvent();
-    Server.getCommandManager().addCommand(this, "birthday", new BirthdayCmd(), Plugin.BIRTHDAY);
+    Server.getCommandManager().addCommand(this, "birthday", new BirthdayCmd(), Plugin.SERVER);
 
     this.christmasEvent = new ChristmasEvent();
     Server.getCommandManager()
-        .addCommand(this, "christmas", new ChristmasCmd(), Plugin.CHRISTMAS);
+        .addCommand(this, "christmas", new ChristmasCmd(), Plugin.SERVER);
 
     this.aprilEvent = new AprilEvent();
-    Server.getCommandManager().addCommand(this, "april", new AprilCmd(), Plugin.APRIL);
+    Server.getCommandManager().addCommand(this, "april", new AprilCmd(), Plugin.SERVER);
   }
 
   public EasterEvent getEasterEvent() {

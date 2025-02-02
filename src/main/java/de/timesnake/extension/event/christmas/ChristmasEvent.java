@@ -9,13 +9,10 @@ import de.timesnake.basic.bukkit.util.user.User;
 import de.timesnake.basic.bukkit.util.user.event.UserJoinEvent;
 import de.timesnake.basic.bukkit.util.user.event.UserQuitEvent;
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
-import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.chat.ExTextColor;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import de.timesnake.library.chat.Plugin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -25,6 +22,10 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ChristmasEvent implements Listener {
 
@@ -91,7 +92,7 @@ public class ChristmasEvent implements Listener {
 
     Block block = e.getClickedBlock();
 
-    if (block == null || block.getType() == null) {
+    if (block == null) {
       return;
     }
 
@@ -118,7 +119,7 @@ public class ChristmasEvent implements Listener {
           .append(Component.text(presents, ExTextColor.VALUE)));
 
       if (presents % 5 == 0) {
-        Server.broadcastMessage(Plugin.CHRISTMAS,
+        Server.broadcastMessage(Plugin.SERVER,
             user.getChatNameComponent()
                 .append(Component.text(" found ", ExTextColor.GOLD))
                 .append(Component.text(presents, ExTextColor.VALUE))
