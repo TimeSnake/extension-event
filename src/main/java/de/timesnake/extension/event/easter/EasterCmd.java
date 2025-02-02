@@ -9,10 +9,10 @@ import de.timesnake.basic.bukkit.util.chat.cmd.CommandListener;
 import de.timesnake.basic.bukkit.util.chat.cmd.Completion;
 import de.timesnake.basic.bukkit.util.chat.cmd.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
-import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.chat.Code;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.chat.Plugin;
 import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
 import net.kyori.adventure.text.Component;
@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class EasterCmd implements CommandListener {
 
-  private final Code perm = Plugin.EASTER.createPermssionCode("exevent.easter");
-  private final Code eggNotExists = Plugin.EASTER.createHelpCode("Egg not exists");
+  private final Code perm = Plugin.SERVER.createPermssionCode("exevent.easter");
+  private final Code eggNotExists = Plugin.SERVER.createHelpCode("Egg not exists");
 
   @Override
   public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {

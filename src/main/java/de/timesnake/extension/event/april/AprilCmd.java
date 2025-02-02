@@ -9,15 +9,15 @@ import de.timesnake.basic.bukkit.util.chat.cmd.CommandListener;
 import de.timesnake.basic.bukkit.util.chat.cmd.Completion;
 import de.timesnake.basic.bukkit.util.chat.cmd.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
-import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.chat.Code;
+import de.timesnake.library.chat.Plugin;
 import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
 
 public class AprilCmd implements CommandListener {
 
-  private final Code perm = Plugin.APRIL.createPermssionCode("exevent.april");
+  private final Code perm = Plugin.SERVER.createPermssionCode("exevent.april");
   ;
 
   @Override

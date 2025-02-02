@@ -9,12 +9,12 @@ import de.timesnake.basic.bukkit.util.chat.cmd.CommandListener;
 import de.timesnake.basic.bukkit.util.chat.cmd.Completion;
 import de.timesnake.basic.bukkit.util.chat.cmd.Sender;
 import de.timesnake.basic.bukkit.util.user.User;
-import de.timesnake.extension.event.Plugin;
 import de.timesnake.extension.event.birthday.BirthdayEvent;
 import de.timesnake.extension.event.birthday.Present;
 import de.timesnake.extension.event.main.ExEvent;
 import de.timesnake.library.chat.Code;
 import de.timesnake.library.chat.ExTextColor;
+import de.timesnake.library.chat.Plugin;
 import de.timesnake.library.commands.PluginCommand;
 import de.timesnake.library.commands.simple.Arguments;
 import net.kyori.adventure.text.Component;
@@ -23,8 +23,8 @@ import java.util.Map;
 
 public class ChristmasCmd implements CommandListener {
 
-  private final Code perm = Plugin.APRIL.createPermssionCode("exevent.christmas");
-  private final Code presentNotExists = Plugin.APRIL.createHelpCode("Present not exists");
+  private final Code perm = Plugin.SERVER.createPermssionCode("exevent.christmas");
+  private final Code presentNotExists = Plugin.SERVER.createHelpCode("Present not exists");
 
   @Override
   public void onCommand(Sender sender, PluginCommand cmd, Arguments<Argument> args) {

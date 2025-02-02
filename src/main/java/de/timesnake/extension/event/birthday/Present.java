@@ -12,6 +12,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 public class Present {
@@ -45,7 +46,13 @@ public class Present {
     this.item = new ExItemStack(Material.PLAYER_HEAD);
     ItemMeta headMeta = this.item.getItemMeta();
     Class<?> headMetaClass = headMeta.getClass();
-    BirthdayEvent.getField(headMetaClass, "profile", GameProfile.class, 0).set(headMeta, profile);
+    try {
+      Field profileField = headMetaClass.getDeclaredField("profile");
+      profileField.setAccessible(true);
+      profileField.set(headMeta, profile);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
     profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
     this.item.setItemMeta(headMeta);
 
