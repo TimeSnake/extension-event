@@ -8,6 +8,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import de.timesnake.basic.bukkit.util.user.inventory.ExItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import org.apache.commons.codec.binary.Base64;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -50,11 +51,10 @@ public class EasterEgg {
     try {
       Field profileField = headMetaClass.getDeclaredField("profile");
       profileField.setAccessible(true);
-      profileField.set(headMeta, profile);
+      profileField.set(headMeta, new ResolvableProfile(profile));
     } catch (NoSuchFieldException | IllegalAccessException e) {
       throw new RuntimeException(e);
     }
-    EasterEvent.getField(headMetaClass, "profile", GameProfile.class, 0).set(headMeta, profile);
     profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
     this.item.setItemMeta(headMeta);
 
